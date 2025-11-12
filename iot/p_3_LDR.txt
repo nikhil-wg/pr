@@ -1,0 +1,42 @@
+/*
+   === LDR (Light Sensor) with LED Control ===
+   Components:
+   - LDR (Light Dependent Resistor)
+   - 10kΩ Resistor (for voltage divider)
+   - LED + 220Ω Resistor
+   - Arduino (Uno, Nano, etc.)
+
+   === Connections ===
+   LDR Sensor Circuit:
+   - One side of LDR  →  5V
+   - Other side of LDR → A0 (ldrPin)
+   - Also connect a 10kΩ resistor between A0 and GND  (this creates a voltage divider)
+
+   LED:
+   - LED positive leg (Anode) → D5 (ledPin)
+   - LED negative leg (Cathode) → 220Ω resistor → GND
+*/
+
+const int ledPin = 5;   // Digital pin connected to LED
+const int ldrPin = A0;  // Analog pin connected to LDR voltage divider
+
+void setup() { 
+  Serial.begin(9600);
+  pinMode(ledPin, OUTPUT);
+  pinMode(ldrPin, INPUT); 
+}
+
+void loop() { 
+  int ldrStatus = analogRead(ldrPin);  // Read LDR analog value
+
+  if (ldrStatus <= 200) {              // If it's dark
+    digitalWrite(ledPin, HIGH);        // Turn LED ON
+    Serial.print("Darkness detected, turning ON LED : ");
+    Serial.println(ldrStatus);
+  } 
+  else {                               // If there's light
+    digitalWrite(ledPin, LOW);         // Turn LED OFF
+    Serial.print("Sufficient light, turning OFF LED : ");
+    Serial.println(ldrStatus);
+  }
+}

@@ -1,0 +1,56 @@
+#include "DHT.h"
+ 
+#define DHTPIN 2     // Digital pin connected to the DHT sensor
+#define DHTTYPE DHT11   // DHT 11
+ 
+DHT dht(DHTPIN, DHTTYPE);
+ 
+void setup() {
+  Serial.begin(9600);
+  dht.begin();
+}
+ 
+void loop()
+{
+
+  delay(2000);
+ 
+  float h = dht.readHumidity();
+
+  // Read temperature as Celsius (the default)
+  float t = dht.readTemperature();
+
+  // Read temperature as Fahrenheit (isFahrenheit = true)
+  float f = dht.readTemperature(true);
+ 
+   
+  Serial.print(F("Humidity: "));
+  Serial.print(h);
+  Serial.print(F("%  Temperature: "));
+  Serial.print(t);
+  Serial.print(F("°C "));
+  Serial.print(f);
+  
+}
+
+
+/*
+   === DHT11 Temperature & Humidity Sensor with Arduino ===
+   📦 Components:
+   - DHT11 Sensor
+   - Arduino (Uno, Nano, etc.)
+   - 10kΩ pull-up resistor (optional but recommended)
+
+   === Connections ===
+   DHT11 Sensor (4-pin module):
+   --------------------------------
+   | Pin | Label | Connects To   |
+   |-----|--------|---------------|
+   |  1  | VCC    | 5V on Arduino|
+   |  2  | DATA   | D2 (DHTPIN)  |
+   |  3  | NC     | Not Connected|
+   |  4  | GND    | GND on Arduino|
+   --------------------------------
+   ⚙️ Note: If your DHT11 module already has a built-in resistor, 
+   you don’t need to add an external one.
+*/

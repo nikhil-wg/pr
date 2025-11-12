@@ -1,0 +1,51 @@
+const int buzzerPin = 5;
+const int flamePin = 2;
+int Flame = HIGH;
+
+void setup() 
+{
+  pinMode(buzzerPin, OUTPUT);
+  pinMode(flamePin, INPUT);
+  Serial.begin(9600);
+}
+
+void loop() 
+{
+  Flame = digitalRead(flamePin);
+  if (Flame== LOW)
+  {
+    Serial.println("Fire is Detected");
+    digitalWrite(buzzerPin, HIGH);
+  }
+  else
+  {
+    Serial.println("No Fire is Detected");
+    digitalWrite(buzzerPin, LOW);
+  }
+}
+
+/*
+   === Flame Sensor with Buzzer Alert (Arduino) ===
+   📦 Components:
+   - Flame Sensor (Digital Output Type)
+   - Buzzer
+   - Arduino (Uno, Nano, etc.)
+
+   === Connections ===
+   Flame Sensor:
+   --------------------------------
+   | Sensor Pin | Connect To | Description                |
+   |-------------|------------|----------------------------|
+   | VCC         | 5V         | Power supply               |
+   | GND         | GND        | Ground connection           |
+   | DO (OUT)    | D2         | Digital output signal pin   |
+   --------------------------------
+
+   Buzzer:
+   --------------------------------
+   | Buzzer Pin | Connect To | Description           |
+   |-------------|------------|----------------------|
+   | + (Positive)| D5         | Controlled by Arduino|
+   | - (Negative)| GND        | Ground connection    |
+   --------------------------------
+*/

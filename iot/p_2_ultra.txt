@@ -1,0 +1,70 @@
+/* 
+   === Ultrasonic + IR Sensor with Buzzer ===
+   Components Used:
+   - HC-SR04 Ultrasonic Sensor
+   - IR Obstacle Sensor
+   - Buzzer
+   - Arduino (Uno, Nano, etc.)
+
+   === Connections ===
+   Ultrasonic Sensor (HC-SR04):
+   - VCC  →  5V on Arduino
+   - GND  →  GND on Arduino
+   - TRIG →  D6  (trigPin)
+   - ECHO →  A0  (echoPin)
+
+   IR Sensor:
+   - VCC  →  5V on Arduino
+   - GND  →  GND on Arduino
+   - OUT  →  A1  (IRPin)
+
+   Buzzer:
+   - Positive (+) → D7 (buzzpin)
+   - Negative (-) → GND on Arduino
+*/
+
+int buzzpin = 7;      // Buzzer connected to digital pin 7
+int trigPin = 6;      // Ultrasonic sensor TRIG pin
+int echoPin = A0;     // Ultrasonic sensor ECHO pin
+int IRPin = A1;       // IR sensor output pin
+int IRV;              // Variable to store IR reading
+int duration, distance;
+
+void setup() {
+  pinMode(trigPin, OUTPUT);
+  pinMode(buzzpin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(IRPin, INPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  // --- Ultrasonic Sensor ---
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  duration = pulseIn(echoPin, HIGH);
+  distance = duration * 0.034 / 2;  // Convert to cm
+
+  Serial.print("Distance in cm is: ");
+  Serial.println(distance);
+
+  // --- Buzzer Control ---
+  if (distance < 20) {
+    digitalWrite(buzzpin, HIGH);  // Object detected close → buzzer ON
+  } else {
+    digitalWrite(buzzpin, LOW);   // Object far → buzzer OFF
+  }
+
+  delay(100);
+
+  // --- IR Sensor ---
+  IRV = digitalRead(IRPin);
+  Serial.print("IR sensor Value: ");
+  Serial.println(IRV);
+
+  delay(1000);
+}
